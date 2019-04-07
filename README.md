@@ -1,2 +1,2 @@
-# ist-iaed-projects
-IST - ASA - Container of various projects
+# IAED Projects
+IST - IAED - Container of various projects
