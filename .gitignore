@@ -1,3 +1,11 @@
+# Project-related files
+*.vscode
+bld/*
+
+# OS files
+*.DS_Store
+*Thumbs.db
+
 # Prerequisites
 *.d
 
