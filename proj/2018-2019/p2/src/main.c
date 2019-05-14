@@ -64,5 +64,7 @@ int main(void) {
 		}
 	}
 
+	list_destroy(l);
+
 	return 0;
 }
