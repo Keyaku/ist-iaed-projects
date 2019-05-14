@@ -30,11 +30,15 @@ int main(void) {
 
 	while (loop) {
 		Node *n;
+		char *name, *email, *phone;
 		cmd = getcmd();
 
 		switch (cmd) {
 		case 'a': /* Adiciona um novo contacto. */
-			n = node_new(strtok(NULL, " "), strtok(NULL, " "), strtok(NULL, " "));
+			name = strtok(NULL, " ");
+			email = strtok(NULL, " ");
+			phone = strtok(NULL, " ");
+			n = node_new(name, email, phone);
 			list_add_node(l, n);
 			break;
 		case 'l': /* Lista todos os contactos pela ordem em que foram introduzidos. */
@@ -47,7 +51,9 @@ int main(void) {
 			list_remove_node(l, strtok(NULL, " "));
 			break;
 		case 'e': /* Altera o endereço do email de um contacto. */
-			list_change_email(l, strtok(NULL, " "), strtok(NULL, " "));
+			name = strtok(NULL, " ");
+			phone = strtok(NULL, " ");
+			list_change_email(l, name, phone);
 			break;
 		case 'c': /* Conta o número de ocorrências de um domínio de email. */
 			list_count_occurrences(l, strtok(NULL, " "));
