@@ -4,6 +4,6 @@
 /* Uns salva vidas */
 typedef unsigned char bool;
 #define false 0
-#define true
+#define true 1
 
 #endif
