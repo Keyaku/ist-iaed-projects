@@ -2,6 +2,8 @@
 #define __CONTACTOS_MAIN_H__
 
 /* Uns salva vidas */
-typedef enum bool { false, true } bool;
+typedef unsigned char bool;
+#define false 0
+#define true
 
 #endif
