@@ -51,9 +51,11 @@ bool node_destroy(Node *n) {
 	else if (n->next != NULL) {
 		n = n->next;
 		n->prev = NULL;
+	} else {
+		n = NULL;
 	}
 	free(tmp);
-	return true;
+	return n != NULL;
 }
 
 /* Funções List */
@@ -109,11 +111,10 @@ void list_count_occurrences(List *l, char *domain) {
 }
 
 void list_destroy(List *l) {
-	Node *n;
-	for (n = l->first; n != NULL; n = n->next) {
-		Node *tmp = n->next;
-		free(n);
-		n = tmp;
+	Node *n = l->first;
+	if (n != NULL) {
+		while (node_destroy(n->next));
+		node_destroy(n);
+		l->first = NULL;
 	}
-	l->first = NULL;
 }
