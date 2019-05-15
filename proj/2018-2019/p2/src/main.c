@@ -29,7 +29,6 @@ int main(void) {
 	l->first = NULL;
 
 	while (loop) {
-		Node *n;
 		char *name, *email, *phone;
 		cmd = getcmd();
 
@@ -38,8 +37,7 @@ int main(void) {
 			name = strtok(NULL, " ");
 			email = strtok(NULL, " ");
 			phone = strtok(NULL, " ");
-			n = node_new(name, email, phone);
-			list_add_node(l, n);
+			list_add_node(l, name, email, phone);
 			break;
 		case 'l': /* Lista todos os contactos pela ordem em que foram introduzidos. */
 			list_print(l);

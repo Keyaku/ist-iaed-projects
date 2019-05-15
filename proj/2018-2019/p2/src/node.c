@@ -59,8 +59,10 @@ bool node_destroy(Node *n) {
 }
 
 /* Funções List */
-void list_add_node(List *l, Node *to_add) {
+void list_add_node(List *l, char *name, char *email, char *phone)) {
 	Node *tmp, *n = l->first;
+	Node *to_add = node_new(name, email, phone);
+
 	if (n == NULL) {
 		l->first = to_add;
 		return;
