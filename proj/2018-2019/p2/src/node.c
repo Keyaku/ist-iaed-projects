@@ -69,6 +69,7 @@ void list_add_node(List *l, Node *to_add) {
 	for (tmp = n; tmp != NULL; n = tmp, tmp = tmp->next) {
 		if (strcmp(tmp->name, to_add->name) == 0) {
 			conflict();
+			free(to_add);
 			return;
 		}
 	}
