@@ -22,7 +22,6 @@ char getcmd() {
 
 /* Main */
 int main(void) {
-	char cmd;
 	bool loop = true;
 
 	List list, *l = &list;
@@ -30,7 +29,7 @@ int main(void) {
 
 	while (loop) {
 		char *name, *email, *phone;
-		cmd = getcmd();
+		char cmd = getcmd();
 
 		switch (cmd) {
 		case 'a': /* Adiciona um novo contacto. */
