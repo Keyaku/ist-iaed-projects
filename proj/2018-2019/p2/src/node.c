@@ -12,9 +12,18 @@
 /* Funções Node */
 Node *node_new(char *name, char *email, char *phone) {
 	Node *n = malloc(sizeof(Node));
-	if (name != NULL) strcpy(n->name, name);
-	if (email != NULL) strcpy(n->email, email);
-	if (phone != NULL) strcpy(n->phone, phone);
+	if (name != NULL) {
+		n->name = malloc(min(1024, strlen(name)+1));
+		strcpy(n->name, name);
+	}
+	if (email != NULL) {
+		n->email = malloc(min(512, strlen(email)+1));
+		strcpy(n->email, email);
+	}
+	if (phone != NULL) {
+		n->phone = malloc(min(64, strlen(phone)+1));
+		strcpy(n->phone, phone);
+	}
 	n->prev = n->next = NULL;
 	return n;
 }
@@ -51,6 +60,8 @@ bool node_destroy(Node *n) {
 	} else {
 		n = NULL;
 	}
+
+	free(tmp->name); free(tmp->email); free(tmp->phone);
 	free(tmp);
 	return n != NULL;
 }
