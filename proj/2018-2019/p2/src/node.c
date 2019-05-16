@@ -19,9 +19,9 @@ Node *node_new(char *name, char *email, char *phone) {
 	return n;
 }
 
-Node *node_find(Node *n, char *name) {
-	HashNode *hn = hashtable_find_node(n);
-	return hn->n;
+Node *node_find(char *name) {
+	HashNode *hn = hashtable_find_node(name);
+	return hn != NULL ? hn->n : NULL;
 }
 
 bool node_change(Node *n, char *email, char *phone) {
@@ -68,23 +68,33 @@ void list_add_node(List *l, char *name, char *email, char *phone) {
 
 	if (l->first == NULL) {
 		l->first = to_add;
-		return;
 	}
-
-	for (tmp = n; tmp != NULL; n = tmp, tmp = tmp->next) {
-		if (strcmp(tmp->name, to_add->name) == 0) {
-			conflict();
-			free(to_add);
-			return;
+	else {
+		for (tmp = n; tmp != NULL; n = tmp, tmp = tmp->next) {
+			if (strcmp(tmp->name, to_add->name) == 0) {
+				conflict();
+				free(to_add);
+				return;
+			}
 		}
-	}
 
-	/* Adicona o nó na lista */
-	n->next = to_add;
-	to_add->prev = n;
+		/* Adicona o nó na lista */
+		n->next = to_add;
+		to_add->prev = n;
+	}
 
 	/* Adiciona o nó na HashTable */
 	hashtable_add_node(to_add);
+}
+
+void list_remove_node(List *l, char *name) {
+	Node *n = node_find(name);
+	if (n == l->first && n != NULL) l->first = n->next;
+	if (n != NULL) {
+		hashtable_remove_node(n); /* Remover o nó da HashTable */
+		node_destroy(n); /* Apagar o nó da memória */
+	}
+	else unavailable();
 }
 
 void list_print(List *l) {
@@ -94,20 +104,13 @@ void list_print(List *l) {
 	}
 }
 
-void list_print_node(List *l, char *name) {
-	Node *n = node_find(l->first, name);
+void list_print_node(char *name) {
+	Node *n = node_find(name);
 	n != NULL ? node_print(n) : unavailable();
 }
 
-void list_remove_node(List *l, char *name) {
-	Node *n = node_find(l->first, name);
-	if (n == l->first && n != NULL) l->first = n->next;
-	hashtable_remove_node(n); /* Remover o nó da tabela de hash */
-	n != NULL ? node_destroy(n) : unavailable(); /* Apagar o nó da memória */
-}
-
-void list_change_email(List *l, char *name, char *email) {
-	Node *n = node_find(l->first, name);
+void list_change_email(char *name, char *email) {
+	Node *n = node_find(name);
 	n != NULL ? node_change(n, email, NULL) : unavailable();
 }
 

@@ -41,7 +41,7 @@ int main(void) {
 			list_print(l);
 			break;
 		case 'p': /* Procura um contacto. */
-			list_print_node(l, strtok(NULL, " "));
+			list_print_node(strtok(NULL, " "));
 			break;
 		case 'r': /* Apaga um contacto. */
 			list_remove_node(l, strtok(NULL, " "));
@@ -49,7 +49,7 @@ int main(void) {
 		case 'e': /* Altera o endereço do email de um contacto. */
 			name = strtok(NULL, " ");
 			email = strtok(NULL, " ");
-			list_change_email(l, name, email);
+			list_change_email(name, email);
 			break;
 		case 'c': /* Conta o número de ocorrências de um domínio de email. */
 			list_count_occurrences(l, strtok(NULL, " "));

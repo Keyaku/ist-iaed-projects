@@ -16,8 +16,8 @@ HashNode *AllNodes[HASHTABLE_SIZE];
 
 /* Protótipos */
 void hashtable_initialize();
+HashNode *hashtable_find_node(const char *name);
 void hashtable_add_node(Node *n);
-HashNode *hashtable_find_node(Node *n);
 void hashtable_remove_node(Node *n);
 void hashtable_destroy();
 
