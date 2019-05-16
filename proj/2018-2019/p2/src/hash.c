@@ -37,12 +37,12 @@ void hashtable_add_node(Node *n) {
 }
 
 void hashtable_remove_node(Node *n) {
-	HashNode *hn, *tmp;
+	HashNode *hn, *next;
 	int idx = hash(n->name);
-	for (tmp = AllNodes[idx], hn = tmp; tmp->n != n; hn = tmp, tmp = tmp->next);
-	hn->next = tmp->next;
-	if (hn == tmp) AllNodes[idx] = NULL;
-	free(tmp);
+	for (hn = AllNodes[idx], next = hn; next->n != n; hn = next, next = next->next);
+	hn->next = next->next;
+	if (AllNodes[idx] == hn) AllNodes[idx] = NULL;
+	free(next);
 }
 
 void hashtable_destroy() {

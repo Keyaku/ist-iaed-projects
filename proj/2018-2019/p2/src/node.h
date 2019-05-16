@@ -12,7 +12,7 @@ struct node {
 
 /* Estrutura List, que contém o primeiro nó */
 typedef struct list {
-	Node *first;
+	Node *first, *last;
 } List;
 
 
