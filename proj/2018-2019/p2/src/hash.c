@@ -28,7 +28,6 @@ void hashtable_add_node(Node *n) {
 		AllNodes[idx] = calloc(1, sizeof(HashNode));
 		hn = AllNodes[idx];
 	} else {
-		hn = hashtable_find_node(n->name);
 		for (hn = AllNodes[idx]; hn->next != NULL && strcmp(hn->n->name, n->name) != 0; hn = hn->next);
 		hn->next = calloc(1, sizeof(HashNode));
 		hn = hn->next;
