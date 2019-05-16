@@ -49,8 +49,8 @@ int main(void) {
 			break;
 		case 'e': /* Altera o endereço do email de um contacto. */
 			name = strtok(NULL, " ");
-			phone = strtok(NULL, " ");
-			list_change_email(l, name, phone);
+			email = strtok(NULL, " ");
+			list_change_email(l, name, email);
 			break;
 		case 'c': /* Conta o número de ocorrências de um domínio de email. */
 			list_count_occurrences(l, strtok(NULL, " "));
