@@ -24,8 +24,7 @@ char getcmd() {
 int main(void) {
 	bool loop = true;
 
-	List list, *l = &list;
-	l->first = NULL;
+	List *l = list_new();
 
 	while (loop) {
 		char *name, *email, *phone;

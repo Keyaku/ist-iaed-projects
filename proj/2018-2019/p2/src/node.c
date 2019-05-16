@@ -4,21 +4,10 @@
 
 #include "main.h"
 #include "node.h"
+#include "hash.h"
 
 #define unavailable() printf("Nome inexistente.\n");
 #define conflict() printf("Nome existente.\n");
-
-/* Estrutura Node */
-typedef struct node Node;
-struct node {
-	char name[1024],
-		email[512],
-		phone[64];
-	Node *prev, *next;
-};
-
-/* Estrutura de hashing */
-#define HASHTABLE_SIZE 501
 
 /* Funções Node */
 Node *node_new(char *name, char *email, char *phone) {
@@ -31,8 +20,8 @@ Node *node_new(char *name, char *email, char *phone) {
 }
 
 Node *node_find(Node *n, char *name) {
-	for (; n != NULL && strcmp(n->name, name) != 0; n = n->next);
-	return n;
+	HashNode *hn = hashtable_find_node(n);
+	return hn->n;
 }
 
 bool node_change(Node *n, char *email, char *phone) {
@@ -67,11 +56,17 @@ bool node_destroy(Node *n) {
 }
 
 /* Funções List */
+List *list_new() {
+	List *l = calloc(1, sizeof(List));
+	hashtable_initialize();
+	return l;
+}
+
 void list_add_node(List *l, char *name, char *email, char *phone) {
 	Node *tmp, *n = l->first;
 	Node *to_add = node_new(name, email, phone);
 
-	if (n == NULL) {
+	if (l->first == NULL) {
 		l->first = to_add;
 		return;
 	}
@@ -83,8 +78,13 @@ void list_add_node(List *l, char *name, char *email, char *phone) {
 			return;
 		}
 	}
+
+	/* Adicona o nó na lista */
 	n->next = to_add;
 	to_add->prev = n;
+
+	/* Adiciona o nó na HashTable */
+	hashtable_add_node(to_add);
 }
 
 void list_print(List *l) {
@@ -101,8 +101,9 @@ void list_print_node(List *l, char *name) {
 
 void list_remove_node(List *l, char *name) {
 	Node *n = node_find(l->first, name);
-	if (l->first == n && n != NULL) l->first = n->next;
-	n != NULL ? node_destroy(n) : unavailable();
+	if (n == l->first && n != NULL) l->first = n->next;
+	hashtable_remove_node(n); /* Remover o nó da tabela de hash */
+	n != NULL ? node_destroy(n) : unavailable(); /* Apagar o nó da memória */
 }
 
 void list_change_email(List *l, char *name, char *email) {
@@ -123,9 +124,11 @@ void list_count_occurrences(List *l, char *domain) {
 
 void list_destroy(List *l) {
 	Node *n = l->first;
+	hashtable_destroy();
 	if (n != NULL) {
 		while (node_destroy(n->next));
 		node_destroy(n);
 		l->first = NULL;
 	}
+	free(l);
 }
