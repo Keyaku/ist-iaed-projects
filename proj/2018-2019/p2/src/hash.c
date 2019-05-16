@@ -16,26 +16,25 @@ void hashtable_initialize() {
 HashNode *hashtable_find_node(const char *name) {
 	HashNode *hn;
 	int idx = hash(name);
-	for (hn = AllNodes[idx]; hn != NULL && hn->n != NULL; hn = hn->next)
-		if (strcmp(hn->n->name, name) == 0) break;
+	for (hn = AllNodes[idx]; hn != NULL && strcmp(hn->n->name, name) != 0; hn = hn->next);
 	return hn;
 }
 
 void hashtable_add_node(Node *n) {
-	HashNode *hn = hashtable_find_node(n->name);
-	if (hn == NULL) { /* Se o nó não estiver na HashTable, adicioná-lo */
-		int idx = hash(n->name);
-		for (hn = AllNodes[idx]; hn != NULL && hn->next != NULL; hn = hn->next);
-		if (hn == NULL) {
-			AllNodes[idx] = calloc(1, sizeof(HashNode));
-			hn = AllNodes[idx];
-		}
-		else {
-			hn->next = calloc(1, sizeof(HashNode));
-			hn = hn->next;
-		}
-		hn->n = n;
+	HashNode *hn;
+	int idx = hash(n->name);
+
+	if (AllNodes[idx] == NULL) {
+		AllNodes[idx] = calloc(1, sizeof(HashNode));
+		hn = AllNodes[idx];
+	} else {
+		hn = hashtable_find_node(n->name);
+		for (hn = AllNodes[idx]; hn->next != NULL && strcmp(hn->n->name, n->name) != 0; hn = hn->next);
+		hn->next = calloc(1, sizeof(HashNode));
+		hn = hn->next;
 	}
+
+	hn->n = n;
 }
 
 void hashtable_remove_node(Node *n) {
