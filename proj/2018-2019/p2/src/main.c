@@ -7,7 +7,7 @@
 
 
 /* Variáveis globais */
-#define BUFFER_SIZE 1024
+#define BUFFER_SIZE 1604 /* 1024 + 512 + 64 + 2 */
 char buffer[BUFFER_SIZE];
 
 /* Obtém comandos */

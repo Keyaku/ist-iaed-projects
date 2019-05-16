@@ -8,9 +8,17 @@
 #define unavailable() printf("Nome inexistente.\n");
 #define conflict() printf("Nome existente.\n");
 
+/* Estrutura Node */
+typedef struct node Node;
+struct node {
+	char name[1024],
+		email[512],
+		phone[64];
+	Node *prev, *next;
+};
 
-/* Funções de verificação para o projecto */
-
+/* Estrutura de hashing */
+#define HASHTABLE_SIZE 501
 
 /* Funções Node */
 Node *node_new(char *name, char *email, char *phone) {

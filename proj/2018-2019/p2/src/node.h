@@ -1,15 +1,6 @@
 #ifndef __NODE_H__
 #define __NODE_H__
 
-/* Estrutura Node */
-typedef struct node Node;
-struct node {
-	char name[1024],
-		email[512],
-		phone[64];
-	Node *prev, *next;
-};
-
 /* Estrutura List, que contém o primeiro nó */
 typedef struct list {
 	Node *first;
