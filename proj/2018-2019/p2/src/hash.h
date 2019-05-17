@@ -19,7 +19,7 @@ HashNode *AllNodes[HASHTABLE_SIZE];
 void hashtable_initialize();
 HashNode *hashtable_find_node(const char *name);
 bool hashtable_add_node(Node *n);
-void hashtable_remove_node(Node *n);
+Node *hashtable_remove_node(const char *name);
 void hashtable_destroy();
 
 #endif

@@ -40,15 +40,20 @@ bool hashtable_add_node(Node *n) {
 	return true;
 }
 
-void hashtable_remove_node(Node *n) {
+Node *hashtable_remove_node(const char *name) {
 	HashNode *hn, *next;
-	int idx = hash(n->name);
+	Node *n;
+	int idx = hash(name);
 
-	for (hn = AllNodes[idx], next = hn; next->n != n; hn = next, next = next->next);
+	for (hn = AllNodes[idx], next = hn; next != NULL && strcmp(next->n->name, name) != 0; hn = next, next = next->next);
+	if (next == NULL) return NULL;
 	if (hn == next) AllNodes[idx] = hn->next;
 	hn->next = next->next;
 
+	n = next->n;
+
 	free(next);
+	return n;
 }
 
 void hashtable_destroy() {

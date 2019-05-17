@@ -98,12 +98,11 @@ void list_add_node(List *l, char *name, char *email, char *phone) {
 }
 
 void list_remove_node(List *l, char *name) {
-	Node *n = node_find(name);
+	Node *n = hashtable_remove_node(name); /* Remover o nó da HashTable */
 	if (n != NULL) {
 		if (n == l->first) l->first = n->next;
 		if (n == l->last) l->last = n->prev;
 
-		hashtable_remove_node(n); /* Remover o nó da HashTable */
 		node_destroy(n); /* Apagar o nó da memória */
 	}
 	else unavailable();
