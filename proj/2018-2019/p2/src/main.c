@@ -10,6 +10,13 @@
 #define BUFFER_SIZE 1604 /* 1024 + 512 + 64 + 2 */
 char buffer[BUFFER_SIZE];
 
+/* Duplica strings */
+char *strdup(const char *src, int size) {
+	char *dst = malloc(size);
+	strncpy(dst, src, size);
+	return dst;
+}
+
 /* Obtém comandos */
 char getcmd() {
 	char cmd;
