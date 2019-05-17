@@ -26,8 +26,14 @@ Node *node_find(char *name) {
 
 bool node_change(Node *n, char *email, char *phone) {
 	if (n == NULL) return false;
-	if (email) strcpy(n->email, email);
-	if (phone) strcpy(n->phone, phone);
+	if (email) {
+		free(n->email);
+		n->email = strndup(email, 512);
+	}
+	if (phone) {
+		free(n->phone);
+		n->phone = strndup(phone, 64);
+	}
 	return true;
 }
 
@@ -55,6 +61,8 @@ bool node_destroy(Node *n) {
 	if (tmp->name) free(tmp->name);
 	if (tmp->email) free(tmp->email);
 	if (tmp->phone) free(tmp->phone);
+
+	tmp->name = tmp->email = tmp->phone = NULL;
 	free(tmp);
 	return n != NULL;
 }
@@ -136,7 +144,7 @@ void list_destroy(List *l) {
 	if (n != NULL) {
 		while (node_destroy(n->next));
 		node_destroy(n);
-		l->first = NULL;
+		l->first = l->last = NULL;
 	}
 	free(l);
 }
