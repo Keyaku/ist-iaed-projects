@@ -77,24 +77,23 @@ List *list_new() {
 void list_add_node(List *l, char *name, char *email, char *phone) {
 	Node *n, *to_add = node_new(name, email, phone);
 
+	/* Adiciona o nó na HashTable (se possível) */
+	if (!hashtable_add_node(to_add)) {
+		conflict();
+		free(to_add);
+		return;
+	}
+
 	if (l->first == NULL) {
 		l->first = to_add;
 	}
 	else {
-		if (hashtable_find_node(name) != NULL) {
-			conflict();
-			free(to_add);
-			return;
-		}
-
 		/* Adicona o nó na lista */
 		n = l->last;
 		n->next = to_add;
 		to_add->prev = n;
 	}
 
-	/* Adiciona o nó na HashTable */
-	hashtable_add_node(to_add);
 	l->last = to_add;
 }
 

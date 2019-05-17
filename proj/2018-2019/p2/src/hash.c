@@ -20,7 +20,7 @@ HashNode *hashtable_find_node(const char *name) {
 	return hn;
 }
 
-void hashtable_add_node(Node *n) {
+bool hashtable_add_node(Node *n) {
 	HashNode *hn;
 	int idx = hash(n->name);
 
@@ -28,12 +28,16 @@ void hashtable_add_node(Node *n) {
 		AllNodes[idx] = calloc(1, sizeof(HashNode));
 		hn = AllNodes[idx];
 	} else {
-		for (hn = AllNodes[idx]; hn->next != NULL; hn = hn->next);
+		for (hn = AllNodes[idx]; hn->next != NULL; hn = hn->next) {
+			if (strcmp(hn->n->name, n->name) == 0) return false;
+		}
+		if (strcmp(hn->n->name, n->name) == 0) return false;
 		hn->next = calloc(1, sizeof(HashNode));
 		hn = hn->next;
 	}
 
 	hn->n = n;
+	return true;
 }
 
 void hashtable_remove_node(Node *n) {
