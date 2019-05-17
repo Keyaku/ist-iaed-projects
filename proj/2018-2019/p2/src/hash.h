@@ -5,7 +5,7 @@
 #include "node.h"
 
 /* Estrutura de hashing */
-#define HASHTABLE_SIZE 501
+#define HASHTABLE_SIZE 331
 
 typedef struct hash_node HashNode;
 struct hash_node {

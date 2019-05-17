@@ -4,7 +4,7 @@
 /* Estrutura Node */
 typedef struct node Node;
 struct node {
-	char *name, *email, *phone;
+	char *name, *email, *domain, *phone;
 	Node *prev, *next;
 };
 

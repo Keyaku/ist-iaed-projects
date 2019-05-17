@@ -13,7 +13,11 @@
 Node *node_new(char *name, char *email, char *phone) {
 	Node *n = malloc(sizeof(Node));
 	if (name != NULL) n->name = strndup(name, 1024);
-	if (email != NULL) n->email = strndup(email, 512);
+	if (email != NULL) {
+		char *at = strchr(email, '@');
+		n->email = strndup(email, strlen(email) - strlen(at));
+		n->domain = strndup(at+1, strlen(at));
+	}
 	if (phone != NULL) n->phone = strndup(phone, 64);
 	n->prev = n->next = NULL;
 	return n;
@@ -27,8 +31,10 @@ Node *node_find(char *name) {
 bool node_change(Node *n, char *email, char *phone) {
 	if (n == NULL) return false;
 	if (email) {
-		free(n->email);
-		n->email = strndup(email, 512);
+		char *at = strchr(email, '@');
+		free(n->email); free(n->domain);
+		n->email = strndup(email, strlen(email) - strlen(at));
+		n->domain = strndup(at+1, strlen(at));
 	}
 	if (phone) {
 		free(n->phone);
@@ -39,7 +45,7 @@ bool node_change(Node *n, char *email, char *phone) {
 
 bool node_print(Node *n) {
 	if (n == NULL) return false;
-	printf("%s %s %s\n", n->name, n->email, n->phone);
+	printf("%s %s@%s %s\n", n->name, n->email, n->domain, n->phone);
 	return true;
 }
 
@@ -60,6 +66,7 @@ bool node_destroy(Node *n) {
 
 	if (tmp->name) free(tmp->name);
 	if (tmp->email) free(tmp->email);
+	if (tmp->domain) free(tmp->domain);
 	if (tmp->phone) free(tmp->phone);
 
 	tmp->name = tmp->email = tmp->phone = NULL;
@@ -131,7 +138,7 @@ void list_count_occurrences(char *domain) {
 	for (idx = 0; idx < HASHTABLE_SIZE; idx++) {
 		HashNode *hn;
 		for (hn = AllNodes[idx]; hn != NULL; hn = hn->next) {
-			if (strcmp(strchr(hn->n->email, '@')+1, domain) == 0) count++;
+			if (strcmp(hn->n->domain, domain) == 0) count++;
 		}
 	}
 
