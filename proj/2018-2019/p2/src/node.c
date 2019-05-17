@@ -61,6 +61,7 @@ bool node_destroy(Node *n) {
 	if (n->phone) free(n->phone);
 
 	n->name = n->email = n->phone = NULL;
+	n->next = n->prev = NULL;
 	free(n);
 	return true;
 }
@@ -134,6 +135,11 @@ void list_count_occurrences(List *l, char *domain) {
 }
 
 void list_destroy(List *l) {
+	while (l->first != NULL) {
+		Node *n = l->first->next;
+		node_destroy(l->first);
+		l->first = n;
+	}
 	hashtable_destroy();
 	free(l);
 }
