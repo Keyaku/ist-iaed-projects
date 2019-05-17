@@ -13,15 +13,15 @@
 Node *node_new(char *name, char *email, char *phone) {
 	Node *n = malloc(sizeof(Node));
 	if (name != NULL) {
-		n->name = malloc(min(1024, strlen(name)+1));
+		n->name = calloc(min(1024, strlen(name)+1), sizeof(char));
 		strcpy(n->name, name);
 	}
 	if (email != NULL) {
-		n->email = malloc(min(512, strlen(email)+1));
+		n->email = calloc(min(512, strlen(email)+1), sizeof(char));
 		strcpy(n->email, email);
 	}
 	if (phone != NULL) {
-		n->phone = malloc(min(64, strlen(phone)+1));
+		n->phone = calloc(min(64, strlen(phone)+1), sizeof(char));
 		strcpy(n->phone, phone);
 	}
 	n->prev = n->next = NULL;
