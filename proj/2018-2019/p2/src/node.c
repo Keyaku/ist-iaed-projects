@@ -144,12 +144,6 @@ void list_count_occurrences(List *l, char *domain) {
 }
 
 void list_destroy(List *l) {
-	Node *n = l->first;
 	hashtable_destroy();
-	if (n != NULL) {
-		while (node_destroy(n->next));
-		node_destroy(n);
-		l->first = l->last = NULL;
-	}
 	free(l);
 }
