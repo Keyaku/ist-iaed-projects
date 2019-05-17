@@ -62,14 +62,8 @@ void hashtable_destroy() {
 		HashNode *hn = AllNodes[idx];
 		while (hn != NULL) {
 			HashNode *tmp = hn->next;
-			/* Apaga-se o nó */
-			free(hn->n->name);
-			free(hn->n->email);
-			free(hn->n->domain);
-			free(hn->n->phone);
-			free(hn->n);
-			/* E depois o nó da HashTable */
-			free(hn);
+			node_destroy(hn->n); /* Apaga-se o nó */
+			free(hn); /* E depois o nó da HashTable */
 			hn = tmp;
 		}
 	}

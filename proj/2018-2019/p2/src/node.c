@@ -50,28 +50,19 @@ bool node_print(Node *n) {
 }
 
 bool node_destroy(Node *n) {
-	Node *tmp = n;
 	if (n == NULL) return false;
-	if (n->prev != NULL) {
-		n = n->prev;
-		n->next = n->next->next;
-		if (n->next) n->next->prev = n;
-	}
-	else if (n->next != NULL) {
-		n = n->next;
-		n->prev = NULL;
-	} else {
-		n = NULL;
-	}
 
-	if (tmp->name) free(tmp->name);
-	if (tmp->email) free(tmp->email);
-	if (tmp->domain) free(tmp->domain);
-	if (tmp->phone) free(tmp->phone);
+	if (n->prev != NULL) n->prev->next = n->next;
+	if (n->next != NULL) n->next->prev = n->prev;
 
-	tmp->name = tmp->email = tmp->phone = NULL;
-	free(tmp);
-	return n != NULL;
+	if (n->name) free(n->name);
+	if (n->email) free(n->email);
+	if (n->domain) free(n->domain);
+	if (n->phone) free(n->phone);
+
+	n->name = n->email = n->phone = NULL;
+	free(n);
+	return true;
 }
 
 /* Funções List */
@@ -109,7 +100,6 @@ void list_remove_node(List *l, char *name) {
 	if (n != NULL) {
 		if (n == l->first) l->first = n->next;
 		if (n == l->last) l->last = n->prev;
-
 		node_destroy(n); /* Apagar o nó da memória */
 	}
 	else unavailable();
