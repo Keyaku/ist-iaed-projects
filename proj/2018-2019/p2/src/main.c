@@ -59,7 +59,7 @@ int main(void) {
 			list_change_email(name, email);
 			break;
 		case 'c': /* Conta o número de ocorrências de um domínio de email. */
-			list_count_occurrences(l, strtok(NULL, " "));
+			list_count_occurrences(strtok(NULL, " "));
 			break;
 		case 'x': /* Sai do programa */
 			loop = false;

@@ -127,12 +127,14 @@ void list_change_email(char *name, char *email) {
 	n != NULL ? node_change(n, email, NULL) : unavailable();
 }
 
-void list_count_occurrences(List *l, char *domain) {
-	int count = 0;
-	Node *n;
+void list_count_occurrences(char *domain) {
+	int idx, count = 0;
 
-	for (n = l->first; n != NULL; n = n->next) {
-		if (strcmp(strchr(n->email, '@')+1, domain) == 0) count++;
+	for (idx = 0; idx < HASHTABLE_SIZE; idx++) {
+		HashNode *hn;
+		for (hn = AllNodes[idx]; hn != NULL; hn = hn->next) {
+			if (strcmp(strchr(hn->n->email, '@')+1, domain) == 0) count++;
+		}
 	}
 
 	printf("%s:%d\n", domain, count);
